@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd/start.dart' show StartWidget;
 import 'package:ppkd/tugas2.dart' show Flutter2Widget;
+import 'package:ppkd/tugas3.dart' show Tugas3Widget;
+import 'package:ppkd/tugas4.dart' show Tugas4Widget;
 
 class Start2Widget extends StatelessWidget {
   const Start2Widget({super.key});
@@ -42,7 +44,7 @@ class _LayoutLatihanState extends State<LayoutLatihan> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
+              leading: Icon(Icons.task_alt),
               title: Text('Home'),
               onTap: () {
                 // Tambahkan aksi jika perlu
@@ -50,8 +52,8 @@ class _LayoutLatihanState extends State<LayoutLatihan> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Profile'),
+              leading: Icon(Icons.task_alt),
+              title: Text('Tugas2'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -60,11 +62,23 @@ class _LayoutLatihanState extends State<LayoutLatihan> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
+              leading: Icon(Icons.task_alt),
+              title: Text('Tugas3'),
               onTap: () {
-                // Tambahkan aksi jika perlu
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => Tugas3Widget()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.task_alt),
+              title: Text('Tugas4'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => Tugas4Widget()),
+                );
               },
             ),
           ],
