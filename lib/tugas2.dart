@@ -40,14 +40,7 @@ class Flutter2Widget extends StatelessWidget {
               "Aldi Kurniawan",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
             ),
-            SizedBox(height: 10),
-            Text(
-              "Siswa PPKDJP Mobile Programing",
-              style: TextStyle(
-                color: const Color.fromARGB(255, 35, 46, 51),
-                fontSize: 16,
-              ),
-            ),
+
             SizedBox(height: 20),
 
             Container(
@@ -150,15 +143,40 @@ class Flutter2Widget extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Aplikasi ini dibuat untuk tugas PPKDJP",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black54,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
+
+                Text(
+                  "Perkenalkan nama saya Aldi Kurniawan, saya adalah siswa PPKDJP yang sedang belajar tentang Flutter.",
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                ),
+              ],
+            ),
 
             Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.location_on, color: Colors.red),
-                SizedBox(width: 8),
-                Text("Jakarta, Indonesia", style: TextStyle(fontSize: 16)),
-              ],
+            Container(
+              width: 70,
+              margin: EdgeInsets.all(16),
+              padding: EdgeInsets.symmetric(vertical: 20),
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Icon(Icons.maps_home_work, color: Colors.white)],
+              ),
             ),
           ],
         ),

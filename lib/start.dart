@@ -55,7 +55,7 @@ class StartWidget extends StatelessWidget {
                 color: Colors.black87,
                 fontFamily: 'Poppins',
               ),
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.center,
             ),
           ],
         ),
