@@ -8,31 +8,15 @@ class Tugas4Widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> coffeeList = [
-      {
-        'name': 'Cake-Best Coffee',
-        'price': 'Rp 30.000',
-        'image': 'assets/images/cake.jpg',
-      },
-      {
-        'name': 'Coklat Susu',
-        'price': 'Rp 25.000',
-        'image': 'assets/images/coklat.jpg',
-      },
+      {'name': 'Cake-Best Coffee', 'price': 'Rp 30.000', 'icon': Icons.coffee},
+      {'name': 'Coklat Susu', 'price': 'Rp 25.000', 'icon': Icons.local_drink},
       {
         'name': 'Ice Cream strawberry',
         'price': 'Rp 35.000',
-        'image': 'assets/images/ice-Cream.jpg',
+        'icon': Icons.icecream,
       },
-      {
-        'name': 'Matcha Latte',
-        'price': 'Rp 45.000',
-        'image': 'assets/images/matcha.jpg',
-      },
-      {
-        'name': 'Oreo Ice Cream',
-        'price': 'Rp 20.000',
-        'image': 'assets/images/oreo-ice.jpg',
-      },
+      {'name': 'Matcha Latte', 'price': 'Rp 45.000', 'icon': Icons.local_cafe},
+      {'name': 'Oreo Ice Cream', 'price': 'Rp 20.000', 'icon': Icons.icecream},
     ];
     return Scaffold(
       appBar: AppBar(
@@ -108,26 +92,31 @@ class Tugas4Widget extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ...coffeeList.map((coffee) {
-                  return ListTile(
-                    leading: Image.asset(
-                      coffee['image'],
-                      width: 40,
-                      height: 40,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(coffee['name']),
-                    subtitle: Text(coffee['price']),
-                    trailing: Icon(Icons.add_shopping_cart),
-                  );
-                }).toList(),
-              ],
+          Card(
+            color: Colors.blue[100],
+            margin: EdgeInsets.all(16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ...coffeeList.map((coffee) {
+                    return ListTile(
+                      leading: Icon(
+                        coffee['icon'],
+                        size: 40,
+                        color: Colors.brown,
+                      ),
+                      title: Text(coffee['name']),
+                      subtitle: Text(coffee['price']),
+                      trailing: Icon(Icons.add_shopping_cart),
+                    );
+                  }).toList(),
+                ],
+              ),
             ),
           ),
         ],

@@ -3,6 +3,7 @@ import 'package:ppkd/start.dart' show StartWidget;
 import 'package:ppkd/tugas2.dart' show Flutter2Widget;
 import 'package:ppkd/tugas3.dart' show Tugas3Widget;
 import 'package:ppkd/tugas4.dart' show Tugas4Widget;
+import 'package:ppkd/tugas5.dart' show Tugas5Widget;
 
 class Start2Widget extends StatelessWidget {
   const Start2Widget({super.key});
@@ -33,53 +34,87 @@ class _LayoutLatihanState extends State<LayoutLatihan> {
       ),
 
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.amber),
-              child: Text(
-                'Menu',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(color: Colors.amber),
+              accountName: const Text(
+                'Aldi Kurniawan',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              accountEmail: const Text('aldi@example.com'),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Text(
+                  'A',
+                  style: TextStyle(fontSize: 32, color: Colors.amber),
+                ),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.task_alt),
-              title: Text('Home'),
-              onTap: () {
-                // Tambahkan aksi jika perlu
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.task_alt),
-              title: Text('Tugas2'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const Flutter2Widget()),
-                ); // Menutup drawer
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.task_alt),
-              title: Text('Tugas3'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => Tugas3Widget()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.task_alt),
-              title: Text('Tugas4'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => Tugas4Widget()),
-                );
-              },
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.home, color: Colors.amber),
+                    title: const Text('Home'),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.assignment, color: Colors.amber),
+                    title: const Text('Tugas2'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const Flutter2Widget(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.assignment_turned_in,
+                      color: Colors.amber,
+                    ),
+                    title: const Text('Tugas3'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => Tugas3Widget()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.assignment_outlined,
+                      color: Colors.amber,
+                    ),
+                    title: const Text('Tugas4'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => Tugas4Widget()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.assignment_outlined,
+                      color: Colors.amber,
+                    ),
+                    title: const Text('Tugas5'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => Tugas5Widget()),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),
