@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd/Login/login.dart';
 import 'package:ppkd/start.dart' show StartWidget;
 import 'package:ppkd/tugas2.dart' show Flutter2Widget;
 import 'package:ppkd/tugas3.dart' show Tugas3Widget;
@@ -110,6 +111,19 @@ class _LayoutLatihanState extends State<LayoutLatihan> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => Tugas5Widget()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.assignment_outlined,
+                      color: Colors.amber,
+                    ),
+                    title: const Text('Tugas6'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => LoginWidget()),
                       );
                     },
                   ),

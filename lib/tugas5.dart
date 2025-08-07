@@ -22,48 +22,66 @@ class _Tugas5WidgetState extends State<Tugas5Widget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(centerTitle: true),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    showName = !showName;
-                  });
-                },
-                child: Text(showName ? "Sembunyikan Nama" : "Tampilkan Nama"),
-              ),
-              SizedBox(height: 10),
-              if (showName)
-                Text(
-                  name,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-              IconButton(
-                icon: Icon(
-                  Icons.favorite,
-                  color: isLiked ? Colors.red : Colors.grey,
-                ),
-                onPressed: () {
-                  setState(() {
-                    isLiked = !isLiked;
-                  });
-                },
-              ),
-              if (isLiked)
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "Disukai",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
+              Card(
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          showName = !showName;
+                        });
+                      },
+                      child: Text(
+                        showName ? "Sembunyikan Nama" : "Tampilkan Nama",
+                      ),
                     ),
-                  ),
+                    SizedBox(width: 20),
+                    if (showName)
+                      Text(
+                        name,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                  ],
                 ),
+              ),
+              Card(
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.favorite,
+                        color: isLiked ? Colors.red : Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isLiked = !isLiked;
+                        });
+                      },
+                    ),
+                    if (isLiked)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          "Disukai",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
               TextButton(
                 onPressed: () {
                   setState(() {

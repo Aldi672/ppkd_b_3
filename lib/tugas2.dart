@@ -145,7 +145,7 @@ class Flutter2Widget extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Aplikasi ini dibuat untuk tugas PPKDJP",
