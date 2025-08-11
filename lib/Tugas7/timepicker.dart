@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:ppkd/Tugas7/app_drawer.dart';
 
 class TimepickerWidget extends StatefulWidget {
+  static const String routeName = '/time';
   const TimepickerWidget({super.key});
 
   @override

@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd/Tugas7/app_drawer.dart';
+// pastikan import sesuai lokasi AppDrawer kamu
 
-class UserWidget extends StatelessWidget {
+class UserWidget extends StatefulWidget {
+  static const String routeName = '/user';
   const UserWidget({super.key});
 
   @override
+  State<UserWidget> createState() => _UserWidgetState();
+}
+
+class _UserWidgetState extends State<UserWidget> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("User Page")),
-      drawer: const AppDrawer(),
+      appBar: AppBar(title: const Text("User Page")),
+      drawer: AppDrawer(),
       body: Padding(
-        padding: EdgeInsetsGeometry.all(20),
+        padding: const EdgeInsets.all(20), // perbaikan
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: const [
             Text("Aplikasi Percobaan PPKD", style: TextStyle(fontSize: 30)),
             SizedBox(height: 20),
-            Text("Name : Aldi kurniawan", style: TextStyle(fontSize: 15)),
+            Text("Name : Aldi Kurniawan", style: TextStyle(fontSize: 15)),
             Text("Age : 18 Years Old", style: TextStyle(fontSize: 15)),
             Text(
-              "Saya memili kengininan untuk membuat aplikasi",
+              "Saya memiliki keinginan untuk membuat aplikasi",
               style: TextStyle(fontSize: 15),
             ),
             Text("Aplikasi Percobaan PPKD", style: TextStyle(fontSize: 15)),

@@ -16,9 +16,26 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-  void _navigateTo(Widget page) {
-    Navigator.pop(context); // tutup drawer
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => page));
+  void _navigateTo(BuildContext context, String newRouteName) {
+    // Tutup drawer terlebih dahulu
+    Navigator.pop(context);
+
+    // Dapatkan nama rute halaman saat ini
+    final String? currentRouteName = ModalRoute.of(context)?.settings.name;
+
+    // Jika kita sudah di halaman tujuan, jangan lakukan apa-apa
+    if (currentRouteName == newRouteName) {
+      return;
+    }
+
+    // LOGIKA INTI:
+    // Jika halaman saat ini adalah Dashboard, gunakan PUSH.
+    // Jika tidak, berarti kita sedang di halaman lain, gunakan REPLACEMENT.
+    if (currentRouteName == UserWidget.routeName) {
+      Navigator.pushNamed(context, newRouteName);
+    } else {
+      Navigator.pushReplacementNamed(context, newRouteName);
+    }
   }
 
   @override
@@ -38,50 +55,54 @@ class _AppDrawerState extends State<AppDrawer> {
             leading: const Icon(Icons.info_outline),
             title: const Text("ButtonNavbar"),
             onTap: () {
-              _navigateTo(Buttonnavbar());
+              Navigator.of(context).popUntil(
+                (route) =>
+                    route.settings.name == UserWidget.routeName ||
+                    route.isFirst,
+              );
             },
           ),
           ListTile(
             leading: const Icon(Icons.check_box),
             title: const Text("Check box"),
-            onTap: () {
-              _navigateTo(Coba1());
-            },
+            onTap: () => _navigateTo(context, Coba1.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.person),
             title: const Text("Profile"),
-            onTap: () {
-              _navigateTo(UserWidget());
-            },
+            // onTap: () {
+            //   _navigateTo(UserWidget());
+            // },
+            onTap: () => _navigateTo(context, Buttonnavbar.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.switch_access_shortcut),
             title: const Text("Switch"),
-            onTap: () {
-              _navigateTo(SwitcWidget());
-            },
+            // onTap: () {
+            //   _navigateTo(SwitcWidget());
+            // },
+            onTap: () => _navigateTo(context, SwitcWidget.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.arrow_drop_down),
             title: const Text("Dropdown"),
-            onTap: () {
-              _navigateTo(Coba3Widget());
-            },
+            // onTap: () {
+            //   _navigateTo(Coba3Widget());
+            // },
+            onTap: () => _navigateTo(context, Coba3Widget.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.date_range),
             title: const Text("DatePicker"),
-            onTap: () {
-              _navigateTo(DatepickerWidget());
-            },
+            // onTap: () {
+            //   _navigateTo(DatepickerWidget());
+            // },
+            onTap: () => _navigateTo(context, DatepickerWidget.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.timeline_rounded),
             title: const Text("TimePicker"),
-            onTap: () {
-              _navigateTo(TimepickerWidget());
-            },
+            onTap: () => _navigateTo(context, TimepickerWidget.routeName),
           ),
           const Divider(),
           ListTile(

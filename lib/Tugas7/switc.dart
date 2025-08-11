@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ppkd/Tugas7/app_drawer.dart';
 
 class SwitcWidget extends StatefulWidget {
+  static const String routeName = '/switc';
   const SwitcWidget({super.key});
 
   @override

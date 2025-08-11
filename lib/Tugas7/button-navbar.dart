@@ -2,20 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:ppkd/Tugas7/app_drawer.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: Buttonnavbar());
-  }
-}
-
+// ignore: use_key_in_widget_constructors
 class Buttonnavbar extends StatefulWidget {
+  static const String routeName = '/button-navbar';
   @override
   State<Buttonnavbar> createState() => _MyHomePageState();
 }

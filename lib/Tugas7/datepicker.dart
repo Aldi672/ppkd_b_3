@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:ppkd/Tugas7/app_drawer.dart';
 
 class DatepickerWidget extends StatefulWidget {
+  static const String routeName = '/date';
   const DatepickerWidget({super.key});
 
   @override

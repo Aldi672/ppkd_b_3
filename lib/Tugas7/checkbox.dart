@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ppkd/Tugas7/app_drawer.dart';
 
 class Coba1 extends StatefulWidget {
+  static const String routeName = '/coba1';
   const Coba1({super.key});
 
   @override
