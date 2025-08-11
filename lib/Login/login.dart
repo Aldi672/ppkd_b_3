@@ -1,7 +1,11 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_final_fields, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+
+import 'package:ppkd/extension/navigation.dart';
 import '../Utils/dialog.dart';
+import 'package:lottie/lottie.dart';
+import 'dart:async';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({super.key});
@@ -15,6 +19,37 @@ class _LoginWidgetState extends State<LoginWidget> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  final List<Map<String, String>> users = [
+    {"username": "6285775417050", "password": "Aldiganteng123!"},
+    {"username": "628578274612", "password": "Aldiganteng123!"},
+    {"username": "628578274612", "password": "Aldiganteng123!"},
+  ];
+
+  void _showLottieDialog() {
+    final parentContext = context; // simpan context luar
+
+    showDialog(
+      context: parentContext,
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          content: SizedBox(
+            height: 150,
+            width: 150,
+            child: Lottie.asset('assets/lottie/not.json', repeat: false),
+          ),
+        );
+      },
+    );
+
+    // Auto close setelah 1 detik
+    Timer(const Duration(seconds: 2), () {
+      if (mounted && Navigator.canPop(parentContext)) {
+        Navigator.pop(parentContext);
+      }
+    });
+  }
 
   bool _password = true;
   bool isPhoneSelected = true;
@@ -37,7 +72,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true),
+      appBar: AppBar(),
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       body: SingleChildScrollView(
         child: Form(
@@ -221,23 +256,23 @@ class _LoginWidgetState extends State<LoginWidget> {
                             return 'Password minimal terdiri dari 6 karakter';
                           }
 
-                          // if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                          //   return 'Password harus mengandung minimal 1 huruf kapital (A-Z)';
-                          // }
+                          if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                            return 'Password harus mengandung minimal 1 huruf kapital (A-Z)';
+                          }
 
-                          // if (!RegExp(r'[a-z]').hasMatch(value)) {
-                          //   return 'Password harus mengandung minimal 1 huruf kecil (a-z)';
-                          // }
+                          if (!RegExp(r'[a-z]').hasMatch(value)) {
+                            return 'Password harus mengandung minimal 1 huruf kecil (a-z)';
+                          }
 
-                          // if (!RegExp(r'[0-9]').hasMatch(value)) {
-                          //   return 'Password harus mengandung minimal 1 angka (0-9)';
-                          // }
+                          if (!RegExp(r'[0-9]').hasMatch(value)) {
+                            return 'Password harus mengandung minimal 1 angka (0-9)';
+                          }
 
-                          // if (!RegExp(
-                          //   r'[!@#\$%^&*(),.?":{}|<>]',
-                          // ).hasMatch(value)) {
-                          //   return 'Password harus mengandung minimal 1 karakter spesial (misal: @, #, !)';
-                          // }
+                          if (!RegExp(
+                            r'[!@#\$%^&*(),.?":{}|<>]',
+                          ).hasMatch(value)) {
+                            return 'Password harus mengandung minimal 1 karakter spesial (misal: @, #, !)';
+                          }
 
                           return null;
                         },
@@ -248,19 +283,75 @@ class _LoginWidgetState extends State<LoginWidget> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          final email = emailController.text;
-                          final password = passwordController.text;
+                          if (_formKey.currentState!.validate()) {
+                            final username = hpController.text.trim();
+                            final password = passwordController.text.trim();
 
-                          showSuccessDialog(
-                            context,
-                            message: 'Succesful login',
-                          );
+                            // Cari user yang cocok di list maps
+                            final user = users.firstWhere(
+                              (u) =>
+                                  u["username"] == username &&
+                                  u["password"] == password,
+                              orElse: () => {},
+                            );
+
+                            if (user.isNotEmpty) {
+                              // Tampilkan dialog sukses
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: SizedBox(
+                                      height: 150,
+                                      width: 150,
+                                      child: Lottie.asset(
+                                        'assets/lottie/otp.json',
+                                        repeat: false,
+                                        onLoaded: (composition) {
+                                          // Setelah animasi selesai -> tutup dialog dan route
+                                          Future.delayed(
+                                            composition.duration,
+                                            () {
+                                              if (mounted) {
+                                                Navigator.pop(
+                                                  context,
+                                                ); // Tutup dialog
+                                                context.pushNamed('/user');
+                                              }
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else {
+                              // Kalau username/password salah
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: const Text(
+                                      "Username atau password salah!",
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("OK"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          }
                         },
-
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF21BDCA),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(10),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           padding: EdgeInsets.symmetric(vertical: 16),
                         ),
@@ -299,7 +390,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                       children: [
                         Expanded(
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              _showLottieDialog();
+                            },
                             child: Container(
                               margin: EdgeInsets.all(5),
                               padding: EdgeInsets.symmetric(vertical: 15),
@@ -336,7 +429,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                         SizedBox(width: 5),
                         Expanded(
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              _showLottieDialog();
+                            },
                             child: Container(
                               margin: EdgeInsets.all(5),
                               padding: EdgeInsets.symmetric(vertical: 15),
@@ -351,7 +446,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     child: Row(
                                       children: [
                                         socialButton(
-                                          "assets/images/facebook.png",
+                                          "assets/images/Vector.png",
                                           () {},
                                         ),
                                       ],

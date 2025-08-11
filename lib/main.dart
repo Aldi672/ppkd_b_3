@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd/Login/login.dart';
+import 'package:ppkd/dashboard/user.dart';
 // import 'package:ppkd/start.dart';
 import 'package:ppkd/start2.dart';
 
@@ -32,7 +34,12 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const Start2Widget(),
+      // home: const Start2Widget(),
+      initialRoute: "/login",
+      routes: {
+        "/login": (context) => LoginWidget(),
+        "/user": (context) => UserWidget(),
+      },
     );
   }
 }

@@ -38,7 +38,9 @@ class _LayoutLatihanState extends State<LayoutLatihan> {
         child: Column(
           children: [
             UserAccountsDrawerHeader(
-              decoration: const BoxDecoration(color: Colors.amber),
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 241, 143, 50),
+              ),
               accountName: const Text(
                 'Aldi Kurniawan',
                 style: TextStyle(fontWeight: FontWeight.bold),
