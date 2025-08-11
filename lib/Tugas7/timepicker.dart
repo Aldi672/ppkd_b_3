@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ppkd/Tugas7/app_drawer.dart';
 
 class TimepickerWidget extends StatefulWidget {
   const TimepickerWidget({super.key});
@@ -30,7 +31,8 @@ class _TimePickerState extends State<TimepickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text("Checkbox Page")),
+      drawer: const AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

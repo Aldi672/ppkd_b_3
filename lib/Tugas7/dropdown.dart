@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd/Tugas7/app_drawer.dart';
 
 class Coba3Widget extends StatefulWidget {
   const Coba3Widget({super.key});
@@ -12,10 +13,8 @@ class _Coba3WidgetState extends State<Coba3Widget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("World"),
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: AppBar(title: Text("Checkbox Page")),
+      drawer: const AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

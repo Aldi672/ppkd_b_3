@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ppkd/Tugas7/app_drawer.dart';
 
 class DatepickerWidget extends StatefulWidget {
   const DatepickerWidget({super.key});
@@ -27,7 +28,8 @@ class _DatepickerWidgetState extends State<DatepickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Pilih Waktu Pengingat")),
+      appBar: AppBar(title: Text("Checkbox Page")),
+      drawer: const AppDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

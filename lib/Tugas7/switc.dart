@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd/Tugas7/app_drawer.dart';
 
 class SwitcWidget extends StatefulWidget {
   const SwitcWidget({super.key});
@@ -12,14 +13,8 @@ class _SwitcWidgetState extends State<SwitcWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "World",
-          style: TextStyle(color: _isCheck ? Colors.black : Colors.white),
-        ),
-
-        backgroundColor: _isCheck ? Colors.white : Colors.black,
-      ),
+      appBar: AppBar(title: Text("Checkbox Page")),
+      drawer: const AppDrawer(),
       backgroundColor: _isCheck ? Colors.black : Colors.white,
       body: Column(
         children: [
