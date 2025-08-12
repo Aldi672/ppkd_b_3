@@ -110,17 +110,17 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           ListTile(
             leading: const Icon(Icons.front_hand),
-            title: const Text("Makanan-Ringan"),
+            title: const Text("Sayur Murah"),
             onTap: () => _navigateTo(context, ListBarangWidget.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.inbox_outlined),
-            title: const Text("ListSayuran"),
+            title: const Text("List Sayuran"),
             onTap: () => _navigateTo(context, StatisWidget.routeName),
           ),
           ListTile(
-            leading: const Icon(Icons.inbox_outlined),
-            title: const Text("ListSayuran"),
+            leading: const Icon(Icons.model_training),
+            title: const Text("List Model"),
             onTap: () => _navigateTo(context, StaticWidgetBaru.routeName),
           ),
           const Divider(),
