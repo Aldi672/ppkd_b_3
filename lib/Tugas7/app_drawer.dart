@@ -5,6 +5,10 @@ import 'package:ppkd/Tugas7/datepicker.dart';
 import 'package:ppkd/Tugas7/dropdown.dart';
 import 'package:ppkd/Tugas7/switc.dart';
 import 'package:ppkd/Tugas7/timepicker.dart';
+import 'package:ppkd/Tugas9/list.dart';
+import 'package:ppkd/Tugas9/list_barang.dart';
+
+import 'package:ppkd/Tugas9/list_model.dart';
 import 'package:ppkd/dashboard/user.dart';
 // Halaman utama dashboard
 
@@ -103,6 +107,21 @@ class _AppDrawerState extends State<AppDrawer> {
             leading: const Icon(Icons.timeline_rounded),
             title: const Text("TimePicker"),
             onTap: () => _navigateTo(context, TimepickerWidget.routeName),
+          ),
+          ListTile(
+            leading: const Icon(Icons.front_hand),
+            title: const Text("Makanan-Ringan"),
+            onTap: () => _navigateTo(context, ListBarangWidget.routeName),
+          ),
+          ListTile(
+            leading: const Icon(Icons.inbox_outlined),
+            title: const Text("ListSayuran"),
+            onTap: () => _navigateTo(context, StatisWidget.routeName),
+          ),
+          ListTile(
+            leading: const Icon(Icons.inbox_outlined),
+            title: const Text("ListSayuran"),
+            onTap: () => _navigateTo(context, StaticWidgetBaru.routeName),
           ),
           const Divider(),
           ListTile(

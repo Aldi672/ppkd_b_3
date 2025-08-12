@@ -1,3 +1,5 @@
+// ignore_for_file: equal_keys_in_map
+
 import 'package:flutter/material.dart';
 import 'package:ppkd/Login/login.dart';
 import 'package:ppkd/Tugas7/button-navbar.dart';
@@ -6,6 +8,10 @@ import 'package:ppkd/Tugas7/datepicker.dart';
 import 'package:ppkd/Tugas7/dropdown.dart';
 import 'package:ppkd/Tugas7/switc.dart';
 import 'package:ppkd/Tugas7/timepicker.dart';
+import 'package:ppkd/Tugas9/list.dart';
+import 'package:ppkd/Tugas9/list_barang.dart';
+
+import 'package:ppkd/Tugas9/list_model.dart';
 import 'package:ppkd/dashboard/user.dart';
 // import 'package:ppkd/start.dart';
 import 'package:ppkd/start2.dart';
@@ -40,20 +46,23 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      // home: const Start2Widget(),
-      initialRoute: UserWidget.routeName,
+
+      home: const LoginWidget(),
       routes: {
         "/login": (context) => LoginWidget(),
         "/user": (context) => UserWidget(),
-        // ignore: equal_keys_in_map
+
         UserWidget.routeName: (context) => const UserWidget(),
         Coba3Widget.routeName: (context) => const Coba3Widget(),
-        Buttonnavbar.routeName: (context) => Buttonnavbar(),
+
         Coba1.routeName: (context) => const Coba1(),
         DatepickerWidget.routeName: (context) => const DatepickerWidget(),
 
         SwitcWidget.routeName: (context) => const SwitcWidget(),
         TimepickerWidget.routeName: (context) => const TimepickerWidget(),
+        ListBarangWidget.routeName: (context) => const ListBarangWidget(),
+        StatisWidget.routeName: (context) => const StatisWidget(),
+        StaticWidgetBaru.routeName: (context) => const StaticWidgetBaru(),
       },
     );
   }

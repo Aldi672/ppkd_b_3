@@ -17,19 +17,43 @@ class _UserWidgetState extends State<UserWidget> {
       appBar: AppBar(title: const Text("User Page")),
       drawer: AppDrawer(),
       body: Padding(
-        padding: const EdgeInsets.all(20), // perbaikan
+        padding: EdgeInsetsGeometry.only(left: 30, right: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text("Aplikasi Percobaan PPKD", style: TextStyle(fontSize: 30)),
-            SizedBox(height: 20),
-            Text("Name : Aldi Kurniawan", style: TextStyle(fontSize: 15)),
-            Text("Age : 18 Years Old", style: TextStyle(fontSize: 15)),
-            Text(
-              "Saya memiliki keinginan untuk membuat aplikasi",
-              style: TextStyle(fontSize: 15),
+          children: [
+            Container(
+              decoration: BoxDecoration(),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(20), // perbaikan
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "Aplikasi Percobaan PPKD",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        "Name : Aldi Kurniawan",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      Text(
+                        "Age : 18 Years Old",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      Text(
+                        "Saya memiliki keinginan untuk membuat aplikasi",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      Text(
+                        "Aplikasi Percobaan PPKD",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            Text("Aplikasi Percobaan PPKD", style: TextStyle(fontSize: 15)),
           ],
         ),
       ),
