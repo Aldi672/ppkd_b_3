@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ppkd/Login/login.dart';
+import 'package:ppkd/Tugas10/tugas10.dart';
 import 'package:ppkd/Tugas7/button-navbar.dart';
 import 'package:ppkd/Tugas7/checkbox.dart';
 import 'package:ppkd/Tugas7/datepicker.dart';
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
         ListBarangWidget.routeName: (context) => const ListBarangWidget(),
         StatisWidget.routeName: (context) => const StatisWidget(),
         StaticWidgetBaru.routeName: (context) => const StaticWidgetBaru(),
+        Day15ParsingData.routeName: (context) => const Day15ParsingData(),
       },
     );
   }

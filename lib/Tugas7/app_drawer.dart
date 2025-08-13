@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd/Tugas10/tugas10.dart';
 import 'package:ppkd/Tugas7/button-navbar.dart';
 import 'package:ppkd/Tugas7/checkbox.dart';
 import 'package:ppkd/Tugas7/datepicker.dart';
@@ -122,6 +123,11 @@ class _AppDrawerState extends State<AppDrawer> {
             leading: const Icon(Icons.model_training),
             title: const Text("List Model"),
             onTap: () => _navigateTo(context, StaticWidgetBaru.routeName),
+          ),
+          ListTile(
+            leading: const Icon(Icons.info_outline),
+            title: const Text("Data Peserta"),
+            onTap: () => _navigateTo(context, Day15ParsingData.routeName),
           ),
           const Divider(),
           ListTile(
