@@ -1,5 +1,8 @@
+// ignore_for_file: await_only_futures, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:ppkd/Tugas10/tugas10.dart';
+import 'package:ppkd/Tugas11/pendaftaran-even.dart';
 import 'package:ppkd/Tugas7/button-navbar.dart';
 import 'package:ppkd/Tugas7/checkbox.dart';
 import 'package:ppkd/Tugas7/datepicker.dart';
@@ -8,10 +11,9 @@ import 'package:ppkd/Tugas7/switc.dart';
 import 'package:ppkd/Tugas7/timepicker.dart';
 import 'package:ppkd/Tugas9/list.dart';
 import 'package:ppkd/Tugas9/list_barang.dart';
-
 import 'package:ppkd/Tugas9/list_model.dart';
 import 'package:ppkd/dashboard/user.dart';
-// Halaman utama dashboard
+import 'package:ppkd/preference/shared_preference.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -22,20 +24,10 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   void _navigateTo(BuildContext context, String newRouteName) {
-    // Tutup drawer terlebih dahulu
     Navigator.pop(context);
-
-    // Dapatkan nama rute halaman saat ini
     final String? currentRouteName = ModalRoute.of(context)?.settings.name;
+    if (currentRouteName == newRouteName) return;
 
-    // Jika kita sudah di halaman tujuan, jangan lakukan apa-apa
-    if (currentRouteName == newRouteName) {
-      return;
-    }
-
-    // LOGIKA INTI:
-    // Jika halaman saat ini adalah Dashboard, gunakan PUSH.
-    // Jika tidak, berarti kita sedang di halaman lain, gunakan REPLACEMENT.
     if (currentRouteName == UserWidget.routeName) {
       Navigator.pushNamed(context, newRouteName);
     } else {
@@ -59,13 +51,7 @@ class _AppDrawerState extends State<AppDrawer> {
           ListTile(
             leading: const Icon(Icons.info_outline),
             title: const Text("ButtonNavbar"),
-            onTap: () {
-              Navigator.of(context).popUntil(
-                (route) =>
-                    route.settings.name == UserWidget.routeName ||
-                    route.isFirst,
-              );
-            },
+            onTap: () => _navigateTo(context, Buttonnavbar.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.check_box),
@@ -75,38 +61,26 @@ class _AppDrawerState extends State<AppDrawer> {
           ListTile(
             leading: const Icon(Icons.person),
             title: const Text("Profile"),
-            // onTap: () {
-            //   _navigateTo(UserWidget());
-            // },
-            onTap: () => _navigateTo(context, Buttonnavbar.routeName),
+            onTap: () => _navigateTo(context, UserWidget.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.switch_access_shortcut),
             title: const Text("Switch"),
-            // onTap: () {
-            //   _navigateTo(SwitcWidget());
-            // },
             onTap: () => _navigateTo(context, SwitcWidget.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.arrow_drop_down),
             title: const Text("Dropdown"),
-            // onTap: () {
-            //   _navigateTo(Coba3Widget());
-            // },
             onTap: () => _navigateTo(context, Coba3Widget.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.date_range),
             title: const Text("DatePicker"),
-            // onTap: () {
-            //   _navigateTo(DatepickerWidget());
-            // },
             onTap: () => _navigateTo(context, DatepickerWidget.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.timeline_rounded),
-            title: const Text("TimePicker"),
+            title: const Text("TimePicker & Data User"),
             onTap: () => _navigateTo(context, TimepickerWidget.routeName),
           ),
           ListTile(
@@ -129,12 +103,25 @@ class _AppDrawerState extends State<AppDrawer> {
             title: const Text("Data Peserta"),
             onTap: () => _navigateTo(context, Day15ParsingData.routeName),
           ),
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: const Text("Folder Even"),
+            onTap: () => _navigateTo(context, PendaftaranWidget.routeName),
+          ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text("Logout"),
-            onTap: () {
-              Navigator.pop(context); // close drawer saja
+            onTap: () async {
+              // hapus status login
+              await PreferenceHandler.removeLoginFromDatabase();
+
+              // pindah ke halaman login (tidak bisa kembali dengan tombol back)
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login',
+                (route) => false,
+              );
             },
           ),
         ],

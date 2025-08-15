@@ -1,13 +1,17 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_final_fields, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:ppkd/Utils/database_helper.dart';
+import 'package:ppkd/data/data_peserta.dart';
 
 import 'package:ppkd/extension/navigation.dart';
+import 'package:ppkd/views/register_screen.dart';
 import '../Utils/dialog.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:async';
 
 class LoginWidget extends StatefulWidget {
+  static const String routeName = '/login';
   const LoginWidget({super.key});
 
   @override
@@ -20,11 +24,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  final List<Map<String, String>> users = [
-    {"username": "6285775417050", "password": "Aldiganteng123!"},
-    {"username": "628578274612", "password": "Aldiganteng123!"},
-    {"username": "628578274612", "password": "Aldiganteng123!"},
-  ];
+  List<Peserta> pesertaList = [];
 
   void _showLottieDialog() {
     final parentContext = context; // simpan context luar
@@ -70,6 +70,16 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadPeserta(); // <--- ambil data dulu dari SQLite
+  }
+
+  Future<void> _loadPeserta() async {
+    pesertaList = await DatabaseHelper.instance.getAllPeserta();
+    setState(() {});
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
@@ -268,12 +278,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                             return 'Password harus mengandung minimal 1 angka (0-9)';
                           }
 
-                          if (!RegExp(
-                            r'[!@#\$%^&*(),.?":{}|<>]',
-                          ).hasMatch(value)) {
-                            return 'Password harus mengandung minimal 1 karakter spesial (misal: @, #, !)';
-                          }
-
                           return null;
                         },
                       ),
@@ -288,14 +292,23 @@ class _LoginWidgetState extends State<LoginWidget> {
                             final password = passwordController.text.trim();
 
                             // Cari user yang cocok di list maps
-                            final user = users.firstWhere(
-                              (u) =>
-                                  u["username"] == username &&
-                                  u["password"] == password,
-                              orElse: () => {},
+                            final user = pesertaList.firstWhere(
+                              (p) =>
+                                  p.phone.toString() == username &&
+                                  p.password == password,
+                              orElse: () => Peserta(
+                                id: 0,
+                                nama: '',
+                                email: '',
+                                event: '',
+                                kota: '',
+                                phone: 0,
+                                password: '',
+                                confirm: '',
+                              ),
                             );
 
-                            if (user.isNotEmpty) {
+                            if (user.nama.isNotEmpty) {
                               // Tampilkan dialog sukses
                               showDialog(
                                 context: context,
@@ -480,13 +493,27 @@ class _LoginWidgetState extends State<LoginWidget> {
                               fontFamily: 'Poppins',
                             ),
                           ),
-                          Text(
-                            " Sign Up",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF21BDCA),
-                              fontFamily: 'Poppins',
+                          TextButton(
+                            onPressed: () async {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RegisterWidget(),
+                                ),
+                              );
+
+                              // jika dari register kembali dengan success → reload data
+                              if (result == true) {
+                                _loadPeserta();
+                              }
+                            },
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                // color: AppColor.blueButton,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],

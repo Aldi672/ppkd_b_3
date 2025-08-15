@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd/Login/login.dart';
 import 'package:ppkd/Tugas10/tugas10.dart';
+import 'package:ppkd/Tugas11/pendaftaran-even.dart';
+
 import 'package:ppkd/Tugas7/button-navbar.dart';
 import 'package:ppkd/Tugas7/checkbox.dart';
 import 'package:ppkd/Tugas7/datepicker.dart';
@@ -16,6 +18,8 @@ import 'package:ppkd/Tugas9/list_model.dart';
 import 'package:ppkd/dashboard/user.dart';
 // import 'package:ppkd/start.dart';
 import 'package:ppkd/start2.dart';
+import 'package:ppkd/views/register_screen.dart';
+import 'package:ppkd/views/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,23 +52,24 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
 
-      home: const LoginWidget(),
+      initialRoute: Day16SplashScreen.routeName,
+
       routes: {
-        "/login": (context) => LoginWidget(),
-        "/user": (context) => UserWidget(),
-
+        LoginWidget.routeName: (context) => const LoginWidget(),
         UserWidget.routeName: (context) => const UserWidget(),
+        PendaftaranWidget.routeName: (context) => const PendaftaranWidget(),
+        Buttonnavbar.routeName: (context) => Buttonnavbar(),
         Coba3Widget.routeName: (context) => const Coba3Widget(),
-
         Coba1.routeName: (context) => const Coba1(),
         DatepickerWidget.routeName: (context) => const DatepickerWidget(),
-
         SwitcWidget.routeName: (context) => const SwitcWidget(),
         TimepickerWidget.routeName: (context) => const TimepickerWidget(),
         ListBarangWidget.routeName: (context) => const ListBarangWidget(),
         StatisWidget.routeName: (context) => const StatisWidget(),
         StaticWidgetBaru.routeName: (context) => const StaticWidgetBaru(),
         Day15ParsingData.routeName: (context) => const Day15ParsingData(),
+        Day16SplashScreen.routeName: (context) => Day16SplashScreen(),
+        RegisterWidget.routeName: (context) => RegisterWidget(),
       },
     );
   }
