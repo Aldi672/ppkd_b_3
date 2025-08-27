@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ppkd/Login/login.dart';
+import 'package:ppkd/Tugas14/view/get_api.dart';
 import 'package:ppkd/Utils/app_image.dart';
 import 'package:ppkd/dashboard/user.dart';
 import 'package:ppkd/extension/navigation.dart';
@@ -34,7 +35,7 @@ class _Day16SplashScreenState extends State<Day16SplashScreen> {
       } else {
         // Pindah ke halaman Login dan hapus halaman sebelumnya
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => LoginWidget()),
+          MaterialPageRoute(builder: (context) => Day23GetAPIScreen()),
         );
       }
     });

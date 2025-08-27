@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ppkd/Login/login.dart';
 import 'package:ppkd/Tugas10/tugas10.dart';
 import 'package:ppkd/Tugas11/pendaftaran-even.dart';
+import 'package:ppkd/Tugas14/view/get_api.dart';
 
 import 'package:ppkd/Tugas7/button-navbar.dart';
 import 'package:ppkd/Tugas7/checkbox.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
         Day15ParsingData.routeName: (context) => const Day15ParsingData(),
         Day16SplashScreen.routeName: (context) => Day16SplashScreen(),
         RegisterWidget.routeName: (context) => RegisterWidget(),
+        Day23GetAPIScreen.routeName: (context) => Day23GetAPIScreen(),
       },
     );
   }

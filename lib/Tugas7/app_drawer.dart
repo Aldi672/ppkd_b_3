@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd/Tugas10/tugas10.dart';
 import 'package:ppkd/Tugas11/pendaftaran-even.dart';
+import 'package:ppkd/Tugas14/view/get_api.dart';
 import 'package:ppkd/Tugas7/button-navbar.dart';
 import 'package:ppkd/Tugas7/checkbox.dart';
 import 'package:ppkd/Tugas7/datepicker.dart';
@@ -107,6 +108,11 @@ class _AppDrawerState extends State<AppDrawer> {
             leading: const Icon(Icons.info),
             title: const Text("Folder Even"),
             onTap: () => _navigateTo(context, PendaftaranWidget.routeName),
+          ),
+          ListTile(
+            leading: const Icon(Icons.check_box),
+            title: const Text("Tugas Api"),
+            onTap: () => _navigateTo(context, Day23GetAPIScreen.routeName),
           ),
           const Divider(),
           ListTile(
