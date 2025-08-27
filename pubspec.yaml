@@ -68,6 +68,7 @@ flutter:
   assets:
     - assets/images/
     - assets/fonts/Poppins/
+    - assets/fonts/Latin/
     - assets/lottie/
 
   #   - images/a_dot_ham.jpeg
@@ -104,6 +105,9 @@ flutter:
         - asset: assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf
         - asset: assets/fonts/Poppins/Poppins-Thin.ttf
         - asset: assets/fonts/Poppins/Poppins-ThinItalic.ttf
-  #
+
+    - family: Latin
+      fonts:
+        - asset: assets/fonts/Latin/Anton-Regular.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
