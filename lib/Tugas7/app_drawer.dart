@@ -120,7 +120,7 @@ class _AppDrawerState extends State<AppDrawer> {
             title: const Text("Logout"),
             onTap: () async {
               // hapus status login
-              await PreferenceHandler.removeLoginFromDatabase();
+              // await PreferenceHandler.removeLoginFromDatabase();
 
               // pindah ke halaman login (tidak bisa kembali dengan tombol back)
               Navigator.pushNamedAndRemoveUntil(

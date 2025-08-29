@@ -1,12 +1,13 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:ppkd/Login/login.dart';
+
 import 'package:ppkd/Tugas14/view/get_api.dart';
 import 'package:ppkd/Utils/app_image.dart';
 import 'package:ppkd/dashboard/user.dart';
 import 'package:ppkd/extension/navigation.dart';
 import 'package:ppkd/preference/shared_preference.dart';
+import 'package:ppkd/tugas15/view/login_api_screen.dart';
 
 class Day16SplashScreen extends StatefulWidget {
   const Day16SplashScreen({super.key});
@@ -35,7 +36,7 @@ class _Day16SplashScreenState extends State<Day16SplashScreen> {
       } else {
         // Pindah ke halaman Login dan hapus halaman sebelumnya
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Day23GetAPIScreen()),
+          MaterialPageRoute(builder: (context) => LoginWidget()),
         );
       }
     });

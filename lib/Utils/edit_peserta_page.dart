@@ -24,11 +24,7 @@ class _EditPesertaPageState extends State<EditPesertaPage> {
     super.initState();
     namaController = TextEditingController(text: widget.peserta.nama);
     emailController = TextEditingController(text: widget.peserta.email);
-    eventController = TextEditingController(text: widget.peserta.event);
-    kotaController = TextEditingController(text: widget.peserta.kota);
-    phoneController = TextEditingController(
-      text: widget.peserta.phone.toString(),
-    );
+
     passwordController = TextEditingController(text: widget.peserta.password);
     confirmController = TextEditingController(text: widget.peserta.confirm);
   }
@@ -76,9 +72,7 @@ class _EditPesertaPageState extends State<EditPesertaPage> {
                   id: widget.peserta.id,
                   nama: namaController.text,
                   email: emailController.text,
-                  event: eventController.text,
-                  kota: kotaController.text,
-                  phone: int.tryParse(phoneController.text) ?? 0,
+
                   password: passwordController.text,
                   confirm: confirmController.text,
                 );

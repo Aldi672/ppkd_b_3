@@ -1,7 +1,7 @@
 // ignore_for_file: equal_keys_in_map
 
 import 'package:flutter/material.dart';
-import 'package:ppkd/Login/login.dart';
+
 import 'package:ppkd/Tugas10/tugas10.dart';
 import 'package:ppkd/Tugas11/pendaftaran-even.dart';
 import 'package:ppkd/Tugas14/view/get_api.dart';
@@ -19,7 +19,9 @@ import 'package:ppkd/Tugas9/list_model.dart';
 import 'package:ppkd/dashboard/user.dart';
 // import 'package:ppkd/start.dart';
 import 'package:ppkd/start2.dart';
-import 'package:ppkd/views/register_screen.dart';
+import 'package:ppkd/tugas15/view/login_api_screen.dart';
+import 'package:ppkd/tugas15/view/post_api_screen.dart';
+
 import 'package:ppkd/views/splash_screen.dart';
 
 void main() {

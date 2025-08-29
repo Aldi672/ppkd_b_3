@@ -1,8 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:ppkd/Utils/database_helper.dart';
 import 'package:ppkd/data/data_peserta.dart';
+import 'package:ppkd/tugas15/api/register_user.dart';
+import 'package:ppkd/tugas15/model/register_model.dart';
 
 class RegisterWidget extends StatefulWidget {
   static const String routeName = '/register';
@@ -16,60 +18,44 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   final _formKey = GlobalKey<FormState>();
   final namaController = TextEditingController();
   final emailController = TextEditingController();
-  final eventController = TextEditingController();
-  final kotaController = TextEditingController();
-  final phoneController = TextEditingController();
+
   final passwordController = TextEditingController();
   final confirmController = TextEditingController();
 
-  List<Peserta> pesertaList = [];
   bool _password = true;
   bool _confirmPassword = true;
+  bool _isLoading = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadPeserta();
-  }
-
-  Future<void> _loadPeserta() async {
-    final data = await DatabaseHelper.instance.getAllPeserta();
-    setState(() {
-      pesertaList = data;
-    });
-  }
-
-  Future<void> _simpanData() async {
+  Future<void> _registerUser() async {
     if (_formKey.currentState!.validate()) {
-      final peserta = Peserta(
-        nama: namaController.text,
-        email: emailController.text,
-        event: eventController.text,
-        kota: kotaController.text,
-        phone: int.tryParse(phoneController.text) ?? 0,
-        password: passwordController.text,
-        confirm: confirmController.text,
-      );
+      setState(() => _isLoading = true);
 
-      await DatabaseHelper.instance.insertPeserta(peserta);
-      namaController.clear();
-      emailController.clear();
-      eventController.clear();
-      kotaController.clear();
+      try {
+        // 🔹 Register ke API
+        RegisterUserModel response = await AuthenticationAPI.registerUser(
+          name: namaController.text,
+          email: emailController.text,
+          password: passwordController.text,
+        );
 
-      _loadPeserta();
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Data berhasil disimpan")));
-      Navigator.pop(context, true);
-    } else {
-      // ✅ Kalau form tidak valid
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Form belum lengkap")));
+        // 🔹 Simpan ke SQLite juga
+
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("${response.message}!")));
+
+        Navigator.pop(context, true);
+      } catch (e) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("$e")));
+      } finally {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Register")),
@@ -122,62 +108,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             ? "Email tidak valid"
                             : null,
                       ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: eventController,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                            Icons.event, // Ikon untuk Kota Favorit / Event
-                            color: Colors.green,
-                          ),
-                          labelText: 'Kota Favorit',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        validator: (value) =>
-                            value!.isEmpty ? "Event wajib diisi" : null,
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: kotaController,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                            Icons.location_city, // Ikon untuk Asal Kota
-                            color: Colors.green,
-                          ),
-                          labelText: 'Asal Kota',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        validator: (value) =>
-                            value!.isEmpty ? "Kota wajib diisi" : null,
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: phoneController,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                            Icons.phone, // Ikon untuk Nomor Telepon
-                            color: Colors.green,
-                          ),
-                          labelText: 'Phone Number',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Nomor telepon wajib diisi';
-                          }
-                          if (!RegExp(r'^62[0-9]{9,}$').hasMatch(value)) {
-                            return 'Nomor harus diawali dengan 62 dan tanpa 0';
-                          }
-                          return null;
-                        },
-                      ),
+
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: passwordController,
@@ -275,7 +206,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       // ),
                       const SizedBox(height: 30),
                       ElevatedButton(
-                        onPressed: _simpanData,
+                        onPressed: _registerUser,
                         child: const Text("Simpan"),
                       ),
                     ],

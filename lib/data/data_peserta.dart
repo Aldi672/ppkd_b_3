@@ -4,9 +4,6 @@ class Peserta {
   final int? id;
   final String nama;
   final String email;
-  final String event;
-  final String kota;
-  final int? phone;
   final String password;
   final String confirm;
 
@@ -14,9 +11,6 @@ class Peserta {
     this.id,
     required this.nama,
     required this.email,
-    required this.event,
-    required this.kota,
-    required this.phone,
     required this.password,
     required this.confirm,
   });
@@ -26,9 +20,6 @@ class Peserta {
       'id': id,
       'nama': nama,
       'email': email,
-      'event': event,
-      'kota': kota,
-      'phone': phone,
       'password': password,
       'confirm': confirm,
     };
@@ -39,9 +30,6 @@ class Peserta {
       id: map['id'],
       nama: map['nama'] ?? '',
       email: map['email'] ?? '',
-      event: map['event'] ?? '',
-      kota: map['kota'] ?? '',
-      phone: map['phone'] != null ? map['phone'] as int : 0,
       password: map['password'] ?? '',
       confirm: map['confirm'] ?? '',
     );

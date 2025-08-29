@@ -14,12 +14,12 @@ class DetailUser extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
+            begin: Alignment.topRight,
             end: Alignment.topRight,
             colors: [
-              Color.fromARGB(255, 235, 186, 196),
-              Color.fromARGB(255, 240, 223, 230),
-              Color.fromARGB(255, 68, 66, 68),
+              Color.fromARGB(255, 14, 12, 12),
+              Color.fromARGB(255, 19, 17, 18),
+              Color.fromARGB(255, 5, 5, 5),
             ],
           ),
         ),
@@ -50,17 +50,18 @@ class DetailUser extends StatelessWidget {
                           fontFamily: 'Latin',
                           fontSize: 25,
                           fontWeight: FontWeight.w500,
+                          color: Colors.white70,
                         ),
                       ),
                       Spacer(),
                       CircleAvatar(
-                        child: Icon(Icons.home_filled, color: Colors.black),
+                        child: Icon(Icons.home_filled, color: Colors.red),
                       ),
                       SizedBox(width: 15),
                       CircleAvatar(
                         child: Icon(
                           Icons.volunteer_activism,
-                          color: Colors.black,
+                          color: Colors.red,
                         ),
                       ),
                     ],
@@ -75,6 +76,7 @@ class DetailUser extends StatelessWidget {
                       fontSize: 16,
                       fontFamily: 'Latin',
                       fontWeight: FontWeight.w200,
+                      color: Colors.white70,
                     ),
                   ),
                 ),
@@ -86,39 +88,39 @@ class DetailUser extends StatelessWidget {
                     children: [
                       Text(
                         "original_title: ${result.originalTitle ?? 'N/A'}",
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white70),
                       ),
                       SizedBox(height: 10),
                       Text(
                         "original_title_romanised: ${result.originalTitleRomanised?.toString() ?? 'N/A'}",
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white70),
                       ),
                       SizedBox(height: 10),
                       Text(
                         "description: ${result.description ?? 'N/A'}",
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white70),
                       ),
                       SizedBox(height: 10),
                       Text(
                         "movieBanner: ${result.movieBanner ?? 'N/A'}",
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white70),
                       ),
                       SizedBox(height: 10),
                       Text(
                         "director: ${result.director ?? 'N/A'}",
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white70),
                       ),
                       SizedBox(height: 10),
                       Text(
                         "producer: ${result.producer ?? 'N/A'}",
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white70),
                       ),
                       SizedBox(height: 10),
 
                       SizedBox(height: 10),
                       Text(
                         "runningTime: ${result.runningTime ?? 'N/A'}",
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white70),
                       ),
                     ],
                   ),

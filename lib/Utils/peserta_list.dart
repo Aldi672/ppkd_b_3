@@ -16,7 +16,7 @@ class PesertaListView extends StatelessWidget {
           return ListTile(
             title: Text(peserta.nama),
             subtitle: Text(
-              "${peserta.email} - ${peserta.event} - ${peserta.kota} - ${peserta.phone} - ${peserta.password} - ${peserta.confirm}",
+              "${peserta.email} - ${peserta.password} - ${peserta.confirm}",
             ),
           );
         },

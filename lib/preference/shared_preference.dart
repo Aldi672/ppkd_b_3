@@ -2,22 +2,48 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceHandler {
   static const String loginKey = "login";
-  static void saveLogin() async {
+  static const String tokenKey = "token";
+  static const String userNameKey = "user_name";
+  static const String userEmailKey = "user_email";
+  static Future<void> saveLogin() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(loginKey, true);
   }
 
-  static getLogin() async {
-    print(loginKey);
+  static Future<bool> getLogin() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.getBool(loginKey);
-    return prefs.getBool(loginKey);
+    return prefs.getBool(loginKey) ?? false;
   }
 
   static void removeLogin() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(loginKey);
+    await prefs.remove(tokenKey);
+    await prefs.remove(userNameKey);
+    await prefs.remove(userEmailKey);
   }
 
-  static Future<void> removeLoginFromDatabase() async {}
+  static Future<void> saveToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(tokenKey, token);
+  }
+
+  static Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(tokenKey);
+  }
+
+  static Future<void> saveUserData(String name, String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(userNameKey, name);
+    await prefs.setString(userEmailKey, email);
+  }
+
+  static Future<Map<String, String?>> getUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    return {
+      "name": prefs.getString(userNameKey),
+      "email": prefs.getString(userEmailKey),
+    };
+  }
 }

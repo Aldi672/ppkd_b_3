@@ -98,20 +98,42 @@ class _Day23GetAPIScreenState extends State<Day23GetAPIScreen> {
                           final dataUser = _filteredBooks[index];
                           return Container(
                             padding: EdgeInsets.all(10),
-                            child: ListTile(
-                              leading: Image.network(dataUser.image ?? ""),
-                              title: Text(dataUser.title ?? ""),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        DetailUser(result: dataUser),
-                                  ),
-                                );
-                              },
-                              // ignore: unnecessary_string_interpolations
+
+                            child: Card(
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: ListTile(
+                                leading: Image.network(dataUser.image ?? ""),
+                                title: Text(dataUser.title ?? ""),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailUser(result: dataUser),
+                                    ),
+                                  );
+                                },
+                                // ignore: unnecessary_string_interpolations
+                              ),
                             ),
+
+                            // child:  ListTile(
+                            //   leading: Image.network(dataUser.image ?? ""),
+                            //   title: Text(dataUser.title ?? ""),
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             DetailUser(result: dataUser),
+                            //       ),
+                            //     );
+                            //   },
+                            //   // ignore: unnecessary_string_interpolations
+                            // ),
                           );
                         },
                       );

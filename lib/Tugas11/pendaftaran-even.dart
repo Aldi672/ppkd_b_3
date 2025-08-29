@@ -45,9 +45,7 @@ class _PendaftaranWidgetState extends State<PendaftaranWidget> {
       final peserta = Peserta(
         nama: namaController.text,
         email: emailController.text,
-        event: eventController.text,
-        kota: kotaController.text,
-        phone: int.tryParse(phoneController.text) ?? 0,
+
         password: passwordController.text,
         confirm: confirmController.text,
       );

@@ -5,8 +5,9 @@ import 'package:ppkd/Utils/database_helper.dart';
 import 'package:ppkd/data/data_peserta.dart';
 
 import 'package:ppkd/extension/navigation.dart';
-import 'package:ppkd/views/register_screen.dart';
-import '../Utils/dialog.dart';
+import 'package:ppkd/tugas15/api/register_user.dart';
+import 'package:ppkd/tugas15/view/post_api_screen.dart';
+
 import 'package:lottie/lottie.dart';
 import 'dart:async';
 
@@ -19,12 +20,9 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
-  final TextEditingController hpController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
-  List<Peserta> pesertaList = [];
 
   void _showLottieDialog() {
     final parentContext = context; // simpan context luar
@@ -52,7 +50,6 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   bool _password = true;
-  bool isPhoneSelected = true;
 
   Widget socialButton(String assetPath, VoidCallback onTap) {
     return Material(
@@ -76,7 +73,6 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   Future<void> _loadPeserta() async {
-    pesertaList = await DatabaseHelper.instance.getAllPeserta();
     setState(() {});
   }
 
@@ -112,53 +108,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
                 SizedBox(height: 40),
 
-                Container(
-                  height: 56,
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 48,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Phone Number",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFF646464),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 48,
-                        width: 151,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Email",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFF888888),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
                 SizedBox(height: 40),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,12 +123,15 @@ class _LoginWidgetState extends State<LoginWidget> {
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       child: TextFormField(
-                        controller: hpController,
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
 
-                        keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.phone, color: Colors.green),
-                          labelText: 'No. HP',
+                          prefixIcon: const Icon(
+                            Icons.email,
+                            color: Colors.green,
+                          ),
+                          labelText: 'Email',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -194,23 +146,16 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Nomor telepon wajib diisi';
+                            return 'Email wajib diisi';
                           }
-
-                          // Cek apakah hanya angka dan dimulai dengan 62
-                          if (!RegExp(r'^62[0-9]{9,}$').hasMatch(value)) {
-                            return 'Nomor harus diawali dengan 62 dan tanpa 0, contoh: 628123456789';
+                          if (!value.contains('@')) {
+                            return 'Format email tidak valid';
                           }
-
-                          // Minimal 12 digit (misal: 628123456789)
-                          if (value.length < 12) {
-                            return 'Nomor telepon minimal 12 digit';
-                          }
-
                           return null;
                         },
                       ),
                     ),
+                    const SizedBox(height: 20),
                     Text(
                       "Password",
                       style: TextStyle(
@@ -286,69 +231,59 @@ class _LoginWidgetState extends State<LoginWidget> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            final username = hpController.text.trim();
+                            final email = emailController.text.trim();
                             final password = passwordController.text.trim();
 
-                            // Cari user yang cocok di list maps
-                            final user = pesertaList.firstWhere(
-                              (p) =>
-                                  p.phone.toString() == username &&
-                                  p.password == password,
-                              orElse: () => Peserta(
-                                id: 0,
-                                nama: '',
-                                email: '',
-                                event: '',
-                                kota: '',
-                                phone: 0,
-                                password: '',
-                                confirm: '',
-                              ),
-                            );
-
-                            if (user.nama.isNotEmpty) {
-                              // Tampilkan dialog sukses
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    content: SizedBox(
-                                      height: 150,
-                                      width: 150,
-                                      child: Lottie.asset(
-                                        'assets/lottie/otp.json',
-                                        repeat: false,
-                                        onLoaded: (composition) {
-                                          // Setelah animasi selesai -> tutup dialog dan route
-                                          Future.delayed(
-                                            composition.duration,
-                                            () {
-                                              if (mounted) {
-                                                Navigator.pop(
-                                                  context,
-                                                ); // Tutup dialog
-                                                context.pushNamed('/user');
-                                              }
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                },
+                            try {
+                              // 🔹 Panggil API login
+                              final user = await AuthenticationAPI.loginUser(
+                                email: email,
+                                password: password,
                               );
-                            } else {
-                              // Kalau username/password salah
+
+                              if (user.data != null) {
+                                // ✅ Login sukses → tampilkan dialog dengan Lottie
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: SizedBox(
+                                        height: 150,
+                                        width: 150,
+                                        child: Lottie.asset(
+                                          'assets/lottie/otp.json',
+                                          repeat: false,
+                                          onLoaded: (composition) {
+                                            Future.delayed(
+                                              composition.duration,
+                                              () {
+                                                if (mounted) {
+                                                  Navigator.pop(
+                                                    context,
+                                                  ); // Tutup dialog
+                                                  context.pushNamed(
+                                                    '/user',
+                                                  ); // Pindah ke halaman user
+                                                }
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                            } catch (e) {
+                              // ❌ Kalau login gagal → tampilkan dialog error
                               showDialog(
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    content: const Text(
-                                      "Username atau password salah!",
-                                    ),
+                                    content: Text(e.toString()),
                                     actions: [
                                       TextButton(
                                         onPressed: () => Navigator.pop(context),
@@ -362,13 +297,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF21BDCA),
+                          backgroundColor: const Color(0xFF21BDCA),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        child: Text(
+                        child: const Text(
                           "Request OTP",
                           style: TextStyle(
                             fontSize: 16,
@@ -379,6 +314,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ),
                       ),
                     ),
+
                     SizedBox(height: 25),
                     Row(
                       children: const [
