@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd/Tugas7/app_drawer.dart';
-import 'package:ppkd/Utils/database_helper.dart';
-import 'package:ppkd/Utils/edit_peserta_page.dart';
-import 'package:ppkd/data/data_peserta.dart';
-import 'package:ppkd/Utils/peserta_list.dart'; // Pastikan sesuai lokasi PesertaListView
+import 'package:ppkd/tugas15/api/register_user.dart';
+import 'package:ppkd/tugas15/model/get_user_model.dart';
+import 'package:ppkd/preference/shared_preference.dart';
 
 class UserWidget extends StatefulWidget {
   static const String routeName = '/user';
@@ -14,86 +13,216 @@ class UserWidget extends StatefulWidget {
 }
 
 class _UserWidgetState extends State<UserWidget> {
-  List<Peserta> pesertaList = [];
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+  GetUserModel? _userData;
+  bool _isLoading = true;
+  bool _isEditing = false;
+  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
-    _loadPeserta();
+    _loadProfileData();
   }
 
-  Future<void> _loadPeserta() async {
-    final data = await DatabaseHelper.instance.getAllPeserta();
+  Future<void> _loadProfileData() async {
     setState(() {
-      pesertaList = data;
+      _errorMessage = null;
     });
+
+    try {
+      final userData = await AuthenticationAPI.getProfile();
+      setState(() {
+        _userData = userData;
+        _nameController.text = userData.data?.name ?? '';
+        _emailController.text = userData.data?.email ?? '';
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _updateProfile() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final updatedData = await AuthenticationAPI.updateProfile(
+        name: _nameController.text.trim(),
+        email: _emailController.text.trim(),
+      );
+
+      setState(() {
+        _userData = GetUserModel(
+          message: updatedData.message,
+          data: updatedData.data != null
+              ? Data(
+                  id: updatedData.data!.id,
+                  name: updatedData.data!.name,
+                  email: updatedData.data!.email,
+                  emailVerifiedAt: updatedData.data!.emailVerifiedAt,
+                  createdAt: updatedData.data!.createdAt,
+                  updatedAt: updatedData.data!.updatedAt,
+                )
+              : null,
+        );
+        _isEditing = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(updatedData.message ?? "Profile updated successfully"),
+        ),
+      );
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
+      });
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("User Page")),
       drawer: const AppDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            pesertaList.isEmpty
-                ? const Text("Belum ada peserta")
-                : SizedBox(
-                    height: 350, // agar ListView bisa tampil di dalam Column
-                    child: ListView.builder(
-                      itemCount: pesertaList.length,
-                      itemBuilder: (context, index) {
-                        final p = pesertaList[index];
-                        return Card(
-                          child: ListTile(
-                            title: Text(p.nama),
-                            subtitle: Text(p.email),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                // tombol UPDATE
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: Colors.blue,
-                                  ),
-                                  onPressed: () async {
-                                    final result = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            EditPesertaPage(peserta: p),
-                                      ),
-                                    );
+      appBar: AppBar(
+        title: Text(_isEditing ? "Edit Profile" : "My Profile"),
+        actions: [
+          if (!_isEditing)
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                setState(() {
+                  _isEditing = true;
+                });
+              },
+            ),
+          if (_isEditing)
+            IconButton(icon: const Icon(Icons.save), onPressed: _updateProfile),
+          if (_isEditing)
+            IconButton(
+              icon: const Icon(Icons.cancel),
+              onPressed: () {
+                setState(() {
+                  _isEditing = false;
+                  // Reset ke data asli
+                  _nameController.text = _userData?.data?.name ?? '';
+                  _emailController.text = _userData?.data?.email ?? '';
+                });
+              },
+            ),
+        ],
+      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _errorMessage != null
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "$_errorMessage",
+                    style: const TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _loadProfileData,
+                    child: const Text("Retry"),
+                  ),
+                ],
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // User ID
+                  const Text(
+                    "User ID:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    _userData?.data?.id?.toString() ?? "N/A",
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 20),
 
-                                    if (result == true) {
-                                      _loadPeserta(); // refresh list setelah user menyimpan
-                                    }
-                                  },
-                                ),
-                                // tombol DELETE
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                  onPressed: () async {
-                                    await DatabaseHelper.deletePeserta(p.id!);
-                                    _loadPeserta(); // refresh list
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
+                  // Name Field
+                  const Text(
+                    "Name:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  TextField(
+                    controller: _nameController,
+                    enabled: _isEditing,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your name",
                     ),
                   ),
-          ],
-        ),
-      ),
+                  const SizedBox(height: 20),
+
+                  // Email Field
+                  const Text(
+                    "Email:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  TextField(
+                    controller: _emailController,
+                    enabled: _isEditing,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your email",
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Email Verification Status
+                  const Text(
+                    "Email Verified:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    _userData?.data?.emailVerifiedAt == null
+                        ? "Not Verified"
+                        : "Verified",
+                    style: TextStyle(
+                      color: _userData?.data?.emailVerifiedAt == null
+                          ? Colors.red
+                          : Colors.green,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Account Created Date
+                  const Text(
+                    "Member Since:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(_userData?.data?.createdAt?.toString() ?? "N/A"),
+                ],
+              ),
+            ),
     );
   }
 }

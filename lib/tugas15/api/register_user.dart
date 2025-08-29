@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:ppkd/preference/shared_preference.dart';
 
 import 'package:ppkd/tugas15/api/endpoint/endpoint.dart';
+import 'package:ppkd/tugas15/model/get_user_data.dart';
 import 'package:ppkd/tugas15/model/get_user_model.dart';
 import 'package:ppkd/tugas15/model/register_model.dart';
 
@@ -20,7 +21,14 @@ class AuthenticationAPI {
       headers: {"Accept": "application/json"},
     );
     if (response.statusCode == 200) {
-      return RegisterUserModel.fromJson(json.decode(response.body));
+      final registerUserModel = RegisterUserModel.fromJson(
+        json.decode(response.body),
+      );
+
+      // SIMPAN TOKEN dan USER ID setelah register berhasil
+      await PreferenceHandler.saveToken(registerUserModel.data.token);
+      await PreferenceHandler.saveUserId(registerUserModel.data.user.id);
+      return registerUserModel;
     } else {
       final error = json.decode(response.body);
       throw Exception(error["message"] ?? "Register gagal");
@@ -38,10 +46,17 @@ class AuthenticationAPI {
       headers: {"Accept": "application/json"},
     );
     if (response.statusCode == 200) {
-      return RegisterUserModel.fromJson(json.decode(response.body));
+      final registerUserModel = RegisterUserModel.fromJson(
+        json.decode(response.body),
+      );
+
+      await PreferenceHandler.saveToken(registerUserModel.data.token);
+      await PreferenceHandler.saveUserId(registerUserModel.data.user.id);
+
+      return registerUserModel;
     } else {
       final error = json.decode(response.body);
-      throw Exception(error["message"] ?? "Register gagal");
+      throw Exception(error["message"] ?? "Login gagal");
     }
   }
 
@@ -52,7 +67,7 @@ class AuthenticationAPI {
     final response = await http.post(
       url,
       body: {"name": name},
-      headers: {"Accept": "application/json", "Authorization": ?token},
+      headers: {"Accept": "application/json", "Authorization": "Bearer $token"},
     );
     if (response.statusCode == 200) {
       return GetUserModel.fromJson(json.decode(response.body));
@@ -67,13 +82,42 @@ class AuthenticationAPI {
     final token = await PreferenceHandler.getToken();
     final response = await http.get(
       url,
-      headers: {"Accept": "application/json", "Authorization": ?token},
+      headers: {"Accept": "application/json", "Authorization": "Bearer $token"},
     );
     if (response.statusCode == 200) {
       return GetUserModel.fromJson(json.decode(response.body));
     } else {
       final error = json.decode(response.body);
       throw Exception(error["message"] ?? "Register gagal");
+    }
+  }
+
+  static Future<UpdateProfileModel> updateProfile({
+    required String name,
+    required String email,
+  }) async {
+    final url = Uri.parse(Endpoint.profile);
+    final token = await PreferenceHandler.getToken();
+
+    if (token == null) {
+      throw Exception("Token tidak tersedia. Silakan login kembali.");
+    }
+
+    final response = await http.put(
+      url,
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: {"name": name, "email": email},
+    );
+
+    if (response.statusCode == 200) {
+      return UpdateProfileModel.fromJson(json.decode(response.body));
+    } else {
+      final error = json.decode(response.body);
+      throw Exception(error["message"] ?? "Update profile gagal");
     }
   }
 }

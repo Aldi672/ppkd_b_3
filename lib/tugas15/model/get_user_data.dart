@@ -1,24 +1,26 @@
 // To parse this JSON data, do
 //
-//     final getUserModel = getUserModelFromJson(jsonString);
+//     final updateProfileModel = updateProfileModelFromJson(jsonString);
 
 import 'dart:convert';
 
-GetUserModel getUserModelFromJson(String str) =>
-    GetUserModel.fromJson(json.decode(str));
+UpdateProfileModel updateProfileModelFromJson(String str) =>
+    UpdateProfileModel.fromJson(json.decode(str));
 
-String getUserModelToJson(GetUserModel data) => json.encode(data.toJson());
+String updateProfileModelToJson(UpdateProfileModel data) =>
+    json.encode(data.toJson());
 
-class GetUserModel {
+class UpdateProfileModel {
   String? message;
   Data? data;
 
-  GetUserModel({this.message, this.data});
+  UpdateProfileModel({this.message, this.data});
 
-  factory GetUserModel.fromJson(Map<String, dynamic> json) => GetUserModel(
-    message: json["message"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
-  );
+  factory UpdateProfileModel.fromJson(Map<String, dynamic> json) =>
+      UpdateProfileModel(
+        message: json["message"],
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {"message": message, "data": data?.toJson()};
 }
@@ -45,12 +47,8 @@ class Data {
     name: json["name"],
     email: json["email"],
     emailVerifiedAt: json["email_verified_at"],
-    createdAt: json["created_at"] == null
-        ? null
-        : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null
-        ? null
-        : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
   );
 
   Map<String, dynamic> toJson() => {

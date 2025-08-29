@@ -5,6 +5,7 @@ class PreferenceHandler {
   static const String tokenKey = "token";
   static const String userNameKey = "user_name";
   static const String userEmailKey = "user_email";
+  static const String userIdKey = 'user_id';
   static Future<void> saveLogin() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(loginKey, true);
@@ -45,5 +46,21 @@ class PreferenceHandler {
       "name": prefs.getString(userNameKey),
       "email": prefs.getString(userEmailKey),
     };
+  }
+
+  static Future<void> saveUserId(int userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(userIdKey, userId);
+  }
+
+  static Future<int?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(userIdKey);
+  }
+
+  static Future<void> clearAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(tokenKey);
+    await prefs.remove(userIdKey);
   }
 }

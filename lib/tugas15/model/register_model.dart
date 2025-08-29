@@ -63,8 +63,8 @@ class User {
   Map<String, dynamic> toJson() => {
     "name": name,
     "email": email,
-    "updated_at": updatedAt.toIso8601String(),
-    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt,
+    "created_at": createdAt,
     "id": id,
   };
 }
